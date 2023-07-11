@@ -42,8 +42,6 @@ ChatBot::~ChatBot()
     }
 }
 
-//// STUDENT CODE
-////
 //COPY
 ChatBot::ChatBot(const ChatBot &bot) :
 _currentNode(bot._currentNode),
@@ -79,7 +77,7 @@ ChatBot& ChatBot::operator=(const ChatBot &bot){
     return *this;
 }
 //MOVE Constructor
-ChatBot::ChatBot(ChatBot &&bot) :
+ChatBot::ChatBot(ChatBot &&bot) noexcept :
 _image(bot._image),
 _currentNode(bot._currentNode),
 _rootNode(bot._rootNode),
@@ -94,7 +92,7 @@ _chatLogic(bot._chatLogic){
     bot._chatLogic = nullptr;
 }
 //MOVE operator=
-ChatBot& ChatBot::operator=(ChatBot &&bot){
+ChatBot& ChatBot::operator=(ChatBot &&bot) noexcept{
     std::cout << "ChatBot Move Assignment Operator Called" << std::endl;
     if (this != &bot){
         delete _image;
@@ -113,9 +111,6 @@ ChatBot& ChatBot::operator=(ChatBot &&bot){
     return *this;
 }
 
-
-////
-//// EOF STUDENT CODE
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
 {
