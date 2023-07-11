@@ -12,19 +12,19 @@
 ChatBot::ChatBot()
 {
     // invalidate data handles
-    _image = nullptr;
-    _chatLogic = nullptr;
-    _rootNode = nullptr;
+    _image = NULL;
+    _chatLogic = NULL;
+    _rootNode = NULL;
 }
 
 // constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename)
 {
-    std::cout << "ChatBot Constructor" << std::endl;
+    std::cout << "ChatBot Constructor called" << std::endl;
     
     // invalidate data handles
-    _chatLogic = nullptr;
-    _rootNode = nullptr;
+    _chatLogic = NULL;
+    _rootNode = NULL;
 
     // load image into heap memory
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
@@ -32,7 +32,7 @@ ChatBot::ChatBot(std::string filename)
 
 ChatBot::~ChatBot()
 {
-    std::cout << "ChatBot Destructor" << std::endl;
+    std::cout << "ChatBot Destructor called" << std::endl;
 
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
@@ -44,6 +44,75 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+//COPY
+ChatBot::ChatBot(const ChatBot &bot) :
+_currentNode(bot._currentNode),
+_rootNode(bot._rootNode),
+_chatLogic(bot._chatLogic) {
+    std::cout << "Copy Constructor called" << std::endl;
+    if (bot._image != NULL){
+    _image = new wxBitmap(*bot._image);
+    }else{
+        _image = NULL;
+    }
+
+    _chatLogic->SetChatbotHandle(this);
+}
+//COPY ASSIGNMENT=
+ChatBot& ChatBot::operator=(const ChatBot &bot){
+    std::cout << "Copy assign operator called" << std::endl;
+    if (this == &bot){
+        return *this;
+    }
+    delete _image;
+
+    if (bot._image != NULL) {
+        _image = new wxBitmap(*bot._image);
+    } else {
+        _image = NULL;
+    }
+
+    _currentNode = bot._currentNode;
+    _rootNode = bot._rootNode;
+    _chatLogic = bot._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+    return *this;
+}
+//MOVE Constructor
+ChatBot::ChatBot(ChatBot &&bot) :
+_image(bot._image),
+_currentNode(bot._currentNode),
+_rootNode(bot._rootNode),
+_chatLogic(bot._chatLogic){
+
+    std::cout << "Move Constructor called" << std::endl;
+
+    _chatLogic->SetChatbotHandle(this);
+    bot._image = NULL;
+    bot._currentNode = nullptr;
+    bot._rootNode = nullptr;
+    bot._chatLogic = nullptr;
+}
+//MOVE operator=
+ChatBot& ChatBot::operator=(ChatBot &&bot){
+    std::cout << "ChatBot Move Assignment Operator Called" << std::endl;
+    if (this != &bot){
+        delete _image;
+    }
+    _image = bot._image;
+    _currentNode = bot._currentNode;
+    _rootNode = bot._rootNode;
+    _chatLogic = bot._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+
+    bot._image = nullptr;
+    bot._currentNode = nullptr;
+    bot._rootNode = nullptr;
+    bot._chatLogic = nullptr;
+
+    return *this;
+}
+
 
 ////
 //// EOF STUDENT CODE
@@ -142,7 +211,7 @@ int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)
     }
 
     int result = costs[n];
-    delete[] costs;
+    delete [] costs;
 
     return result;
 }

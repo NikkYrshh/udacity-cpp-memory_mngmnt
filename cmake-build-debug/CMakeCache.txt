@@ -214,7 +214,13 @@ Membot_IS_TOP_LEVEL:STATIC=ON
 Membot_SOURCE_DIR:STATIC=/Users/nikyrsh/CppND-Memory-Management-Chatbot
 
 //Location of wxWidgets library configuration provider binary (wx-config).
-wxWidgets_CONFIG_EXECUTABLE:FILEPATH=wxWidgets_CONFIG_EXECUTABLE-NOTFOUND
+wxWidgets_CONFIG_EXECUTABLE:FILEPATH=/opt/homebrew/bin/wx-config
+
+//Use debug build?
+wxWidgets_USE_DEBUG:BOOL=OFF
+
+//Location of wxWidgets resource file compiler binary (wxrc)
+wxWidgets_wxrc_EXECUTABLE:FILEPATH=/opt/homebrew/bin/wxrc
 
 
 ########################
@@ -352,4 +358,6 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding wxWidgets
+FIND_PACKAGE_MESSAGE_DETAILS_wxWidgets:INTERNAL=[-L/opt/homebrew/lib;;;-framework IOKit;-framework Carbon;-framework Cocoa;-framework QuartzCore;-framework AudioToolbox;-framework System;-framework OpenGL;-lwx_osx_cocoau_core-3.2;-lwx_baseu-3.2][/opt/homebrew/lib/wx/include/osx_cocoa-unicode-3.2;/opt/homebrew/include/wx-3.2][v3.2.2()]
 
